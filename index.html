@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ashi Art Toy Blind Box 🎁 | กล่องสุ่มความทรงจำ 3D</title>
+  <meta name="description" content="สุ่มกล่องของขวัญ Art Toy ซีรีส์ Ashi ลุ้นรับการ์ด Secret สุดแรร์ พร้อมตู้โชว์ 3D หมุนดูได้รอบทิศทาง">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Fredoka:wght@400;600;700&family=Outfit:wght@400;500;600;700;800&family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="theme-blindbox">
+  <!-- Dynamic Background Canvas -->
+  <canvas id="ambientCanvas"></canvas>
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="app-container">
+    <!-- Top Nav / Header -->
+    <header class="app-header">
+      <div class="header-brand">
+        <div class="logo-badge">
+          <i class="fa-solid fa-cube"></i> POP MART STYLE
+        </div>
+        <h1 class="main-title">ASHI ART TOY</h1>
+        <p class="series-name">Series 01: Dream Realm Collection</p>
+      </div>
+
+
+
+      <!-- Header Actions -->
+      <div class="header-actions">
+        <button id="soundToggleBtn" class="glass-btn icon-btn" title="เปิด/ปิดเสียง">
+          <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+        </button>
+        <button id="collectionBookBtn" class="glass-btn" title="ดูสมุดสะสม Art Toy">
+          <i class="fa-solid fa-book-bookmark"></i> <span class="hide-sm">สมุดสะสม</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Workspace Stage -->
+    <main class="scene-stage" id="sceneStage">
+      
+      <!-- ==============================================
+           VIEW 1: UNBOXING TABLE (โต๊ะแกะกล่องสุ่ม)
+           ============================================== -->
+      <section class="stage-view active-view" id="unboxingView">
+        <div class="blindbox-pedestal">
+          <div class="pedestal-spotlight"></div>
+          
+          <!-- 3D Art Toy Blind Box Package -->
+          <div class="art-toy-box-3d" id="artToyBox" role="button" tabindex="0" title="แตะเพื่อแกะกล่องสุ่ม!">
+            <!-- Top Cap with Tear Strip -->
+            <div class="toybox-lid" id="toyboxLid">
+              <div class="tear-strip" id="tearStrip">
+                <span><i class="fa-solid fa-scissors"></i> PULL TO OPEN</span>
+              </div>
+              <div class="lid-face lid-top-face"></div>
+            </div>
+
+            <!-- Box Faces -->
+            <div class="toybox-body" id="toyboxBody">
+              <div class="box-side side-front">
+                <div class="box-art-header">
+                  <span class="series-tag">LIMITED ED.</span>
+                  <span class="brand-text">ASHI TOYS</span>
+                </div>
+                <div class="character-silhouette">
+                  <i class="fa-solid fa-wand-magic-sparkles shine-icon"></i>
+                  <span class="mystery-q">?</span>
+                </div>
+                <div class="box-art-footer">
+                  <span class="box-title">DREAM REALM</span>
+                  <div class="barcode-strip">
+                    <span class="bars">||| | |||| || | |||</span>
+                    <span class="serial">NO. 883-91</span>
+                  </div>
+                </div>
+              </div>
+              <div class="box-side side-back">
+                <div class="checklist-preview">
+                  <span class="back-title">COLLECTION CHECKLIST</span>
+                  <div class="mini-grid">
+                    <span>★ 6 Regular</span>
+                    <span>★★ 1 Rare</span>
+                    <span>★★★ 1 Secret</span>
+                  </div>
+                  <div class="warning-text">Ashi Collector Series</div>
+                </div>
+              </div>
+              <div class="box-side side-left">
+                <span class="vertical-text">ASHI BLIND BOX</span>
+              </div>
+              <div class="box-side side-right">
+                <span class="vertical-text">SECRET CHASE 1/72</span>
+              </div>
+              <div class="box-side side-bottom"></div>
+            </div>
+
+            <!-- Sparkle Rings -->
+            <div class="box-aura"></div>
+          </div>
+
+          <!-- Shadow / Base -->
+          <div class="pedestal-base"></div>
+        </div>
+
+        <!-- Unboxing Controls -->
+        <div class="unbox-control-panel">
+          <p class="unbox-prompt-text" id="unboxPrompt">เขย่ากล่องเพื่อฟังเสียง หรือกดปุ่มเพื่อสุ่มลุ้นตัวละคร!</p>
+          
+          <div class="unbox-btn-group">
+            <button id="shakeBoxBtn" class="action-pill-btn shake-btn" title="เขย่ากล่องเพื่อทายน้ำหนัก">
+              <i class="fa-solid fa-hand-fist"></i> <span>เขย่ากล่อง 🎲</span>
+            </button>
+            <button id="openBoxBtn" class="action-pill-btn unbox-primary-btn" title="แกะกล่องสุ่ม">
+              <i class="fa-solid fa-bolt-lightning"></i> <span>แกะกล่องสุ่มทันที! 🎁</span>
+            </button>
+            <button id="unlockAllBtn" class="action-pill-btn ghost-btn" title="ปลดล็อกทั้งหมดทันทีเพื่อดูตู้โชว์ 3D">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> <span>เปิดครบทุกตัว</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==============================================
+           VIEW 2: 3D ROTATING SHOWCASE (ตู้โชว์หมุน 3D)
+           ============================================== -->
+      <section class="stage-view hide" id="showcaseView">
+        <div class="showcase-header">
+          <div class="showcase-info">
+            <h2 class="showcase-title"><i class="fa-solid fa-trophy"></i> ASHI 3D SHOWCASE</h2>
+            <p class="showcase-subtitle">ลากเมาส์หรือปัดหน้าจอเพื่อหมุนตู้โชว์ 360° • คลิกการ์ดเพื่อซูมดู</p>
+          </div>
+        </div>
+
+        <!-- 3D Carousel Cylinder World -->
+        <div class="carousel-3d-world" id="carousel3dWorld">
+          <div class="acrylic-display-case"></div>
+          <div class="carousel-cylinder" id="carouselCylinder">
+            <!-- Dynamic 3D Toy Cards injected by script.js -->
+          </div>
+        </div>
+
+        <!-- Carousel Navigation & Indicators -->
+        <div class="carousel-controls-bar">
+          <button id="prevBtn" class="nav-round-btn" title="ตัวก่อนหน้า"><i class="fa-solid fa-chevron-left"></i></button>
+          <div class="indicator-dots-group" id="indicatorBar"></div>
+          <button id="nextBtn" class="nav-round-btn" title="ตัวถัดไป"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+
+        <!-- Showcase Dock Tools -->
+        <div class="dock-panel">
+          <button id="autoSpinBtn" class="dock-btn active" title="สลับการหมุนอัตโนมัติ">
+            <i class="fa-solid fa-circle-play" id="spinPlayIcon"></i> <span>หมุนวนอัตโนมัติ</span>
+          </button>
+          <div class="dock-divider"></div>
+          <label class="speed-slider-label">
+            <span>ความเร็ว:</span>
+            <input type="range" id="speedSlider" min="1" max="10" value="4" step="1">
+          </label>
+          <div class="dock-divider"></div>
+          <button id="backToUnboxBtn" class="dock-btn highlight" title="กลับไปสุ่มเพิ่ม">
+            <i class="fa-solid fa-plus"></i> <span>สุ่มเพิ่มอีกกล่อง</span>
+          </button>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==============================================
+         REVEAL MODAL: UNBOXING WINNER CARD POPUP
+         ============================================== -->
+    <div class="reveal-modal-overlay hide" id="revealModal">
+      <div class="reveal-backdrop"></div>
+      
+      <div class="reveal-burst-rays"></div>
+
+      <div class="reveal-card-container">
+        <!-- New Badge -->
+        <div class="reveal-status-tag" id="revealStatusTag">✨ NEW CHARACTER UNLOCKED! ✨</div>
+        
+        <!-- 3D Holographic Foil Toy Card -->
+        <div class="holo-toy-card" id="holoToyCard">
+          <div class="holo-card-shine"></div>
+          
+          <div class="holo-card-top">
+            <span class="rarity-badge" id="revealRarityBadge">SECRET ★★★</span>
+            <span class="collector-id" id="revealCollectorId">NO. 07</span>
+          </div>
+
+          <div class="holo-img-frame">
+            <img id="revealCardImg" src="" alt="Art Toy Character">
+          </div>
+
+          <div class="holo-card-details">
+            <h3 class="toy-name" id="revealToyName">Ashi - Cosmic Dreamer</h3>
+            <p class="toy-quote" id="revealToyQuote">"ลวดลายแห่งมิติคอสมิกสุดพิเศษ"</p>
+            <div class="toy-meta-row">
+              <span>Series: Dream Realm 01</span>
+              <span class="chase-chance" id="revealChance">Drop Rate: 1.2%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons after Reveal -->
+        <div class="reveal-actions">
+          <button id="revealShowcaseBtn" class="action-pill-btn highlight-btn">
+            <i class="fa-solid fa-rotate"></i> <span>ดูในตู้โชว์หมุน 3D</span>
+          </button>
+          <button id="revealAgainBtn" class="action-pill-btn secondary-btn">
+            <i class="fa-solid fa-gift"></i> <span>สุ่มกล่องต่อไป 🎁</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==============================================
+         COLLECTION BOOK MODAL (สมุดสะสม Art Toy)
+         ============================================== -->
+    <div class="book-modal-overlay hide" id="collectionBookModal">
+      <div class="book-backdrop" id="bookBackdrop"></div>
+      <div class="book-content">
+        <div class="book-header">
+          <div class="book-title-wrap">
+            <i class="fa-solid fa-book-open"></i>
+            <h2>Ashi Collector's Guidebook</h2>
+          </div>
+          <button class="modal-close-btn" id="bookCloseBtn"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="book-progress-wrap">
+          <div class="progress-labels">
+            <span>ความคืบหน้าการสะสม:</span>
+            <strong id="bookProgressText">0 / 8 (0%)</strong>
+          </div>
+          <div class="progress-bar-track">
+            <div class="progress-bar-fill" id="bookProgressBar" style="width: 0%;"></div>
+          </div>
+        </div>
+        <!-- Grid of 8 figures -->
+        <div class="book-grid" id="bookGrid">
+          <!-- Injected by script.js -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Footer -->
+    <footer class="app-footer">
+      <p>Ashi Blind Box Edition • Powered by Web 3D & CSS Interactive Animations</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
